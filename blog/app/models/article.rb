@@ -8,7 +8,7 @@ class Article < ApplicationRecord
     validates :title, presence: true
     validates :body, presence: true, length: { minimum: 10 }
   
-    after_commit :check_reports_count_and_redirect
+    after_commit :check_reports_count
   
     def report!
       increment!(:reports_count)
@@ -21,7 +21,7 @@ class Article < ApplicationRecord
   
     private
   
-    def check_reports_count_and_redirect
+    def check_reports_count
       if reported? && !archived?
         update!(status: 'archived')
       end
